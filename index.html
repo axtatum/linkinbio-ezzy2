@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EzrealVT's Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#070611",
+            abyss: "#0b0a1a",
+            demon: "#6d28d9",   // purple
+            voidblue: "#1d4ed8" // blue
+          },
+          boxShadow: {
+            glow: "0 0 0 1px rgba(109,40,217,.35), 0 0 24px rgba(29,78,216,.25), 0 0 44px rgba(109,40,217,.18)",
+            glowStrong: "0 0 0 1px rgba(109,40,217,.6), 0 0 34px rgba(29,78,216,.35), 0 0 64px rgba(109,40,217,.28)"
+          },
+          keyframes: {
+            floaty: { "0%,100%": { transform: "translateY(0px)" }, "50%": { transform: "translateY(-6px)" } },
+            pulseGlow: { "0%,100%": { opacity: ".55" }, "50%": { opacity: ".9" } }
+          },
+          animation: {
+            floaty: "floaty 6s ease-in-out infinite",
+            pulseGlow: "pulseGlow 5s ease-in-out infinite"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Extra polish beyond Tailwind */
+    .noise {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+    .card-shine:before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 1.25rem;
+      background: linear-gradient(120deg, rgba(109,40,217,.25), rgba(29,78,216,.18), rgba(255,255,255,.08));
+      filter: blur(10px);
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+    .card-shine:hover:before { opacity: 1; }
+  </style>
+</head>
+
+<body class="min-h-screen bg-ink text-white selection:bg-demon/30 selection:text-white">
+  <!-- Background layers -->
+  <div class="fixed inset-0 -z-50 bg-gradient-to-b from-ink via-abyss to-black"></div>
+
+  <!-- Nebula glow blobs -->
+  <div class="fixed inset-0 -z-40 overflow-hidden">
+    <div class="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-demon/25 blur-3xl animate-pulseGlow"></div>
+    <div class="absolute top-1/3 -right-32 h-96 w-96 rounded-full bg-voidblue/20 blur-3xl animate-pulseGlow"></div>
+    <div class="absolute bottom-[-140px] left-1/4 h-[520px] w-[520px] rounded-full bg-demon/15 blur-3xl"></div>
+  </div>
+
+  <!-- Stars canvas -->
+  <canvas id="stars" class="fixed inset-0 -z-30 opacity-80"></canvas>
+
+  <!-- Subtle noise -->
+  <div class="noise fixed inset-0 -z-20 opacity-40"></div>
+
+  <!-- Page -->
+  <main class="mx-auto max-w-xl px-5 pb-16 pt-10 sm:pt-14">
+    <!-- Header / Avatar -->
+    <section class="relative">
+      <div class="mx-auto w-full rounded-3xl border border-white/10 bg-white/5 p-6 shadow-glow backdrop-blur-xl">
+        <div class="flex items-center gap-4">
+            <div class="relative shrink-0">
+                <div class="h-16 w-16 rounded-2xl bg-gradient-to-br from-demon to-voidblue p-[2px] shadow-glowStrong overflow-hidden">
+                  <div class="h-full w-full rounded-2xl bg-ink/80 overflow-hidden">
+                    <img
+                      src="/assets/ezzy3.jpg"
+                      alt="EzrealVT avatar"
+                      class="h-full w-full object-cover object-center"
+                    />
+                  </div>
+                </div>
+            <!-- Live dot -->
+            <span class="absolute -bottom-1 -right-1 grid place-items-center">
+              <span class="relative flex h-4 w-4">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-voidblue/70"></span>
+                <span class="relative inline-flex h-4 w-4 rounded-full bg-voidblue shadow-glow"></span>
+              </span>
+            </span>
+          </div>
+
+          <div class="flex-1">
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl font-semibold tracking-tight">EzrealVT</h1>
+              <span class="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-white/80">
+                space devil
+              </span>
+            </div>
+            <p class="mt-1 text-sm text-white/75">
+              Chaos-coded comfort streams ✦ games, ASMR, lore ✦ join the cult—respectfully.
+            </p>
+
+            <!-- Quick stats -->
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="rounded-full bg-black/40 px-3 py-1 text-xs text-white/70 border border-white/10">🎮 Variety</span>
+              <span class="rounded-full bg-black/40 px-3 py-1 text-xs text-white/70 border border-white/10">🎤 ASMR</span>
+              <span class="rounded-full bg-black/40 px-3 py-1 text-xs text-white/70 border border-white/10">🪐 Lore</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA row -->
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          <a href="#"
+             class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium shadow-glow transition hover:shadow-glowStrong">
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              <span class="inline-block h-2 w-2 rounded-full bg-voidblue shadow-glow"></span>
+              Watch Live
+            </span>
+            <span class="absolute inset-0 bg-gradient-to-r from-demon/25 via-voidblue/25 to-white/5 opacity-0 transition group-hover:opacity-100"></span>
+          </a>
+
+          <a href="#"
+             class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium shadow-glow transition hover:shadow-glowStrong">
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              <span class="text-white/80">✨</span>
+              Join Discord
+            </span>
+            <span class="absolute inset-0 bg-gradient-to-r from-voidblue/20 via-demon/25 to-white/5 opacity-0 transition group-hover:opacity-100"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Demonic sigil divider -->
+      <div class="mt-6 flex items-center justify-center gap-3 text-white/40">
+        <span class="h-px w-16 bg-white/10"></span>
+        <span class="text-xs tracking-[0.3em] uppercase">sigil links</span>
+        <span class="h-px w-16 bg-white/10"></span>
+      </div>
+    </section>
+
+    <!-- Link cards -->
+    <section class="mt-6 grid gap-3">
+      <!-- Primary links -->
+      <a href="#"
+         class="card-shine relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 shadow-glow backdrop-blur-xl transition hover:shadow-glowStrong">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-demon to-voidblue p-[1px]">
+            <div class="h-full w-full rounded-2xl bg-black/40 grid place-items-center">🟣</div>
+          </div>
+          <div class="flex-1">
+            <p class="font-semibold leading-tight">Twitch</p>
+            <p class="text-sm text-white/70">Main streams + VOD highlights</p>
+          </div>
+          <span class="text-white/40">→</span>
+        </div>
+      </a>
+
+      <a href="#"
+         class="card-shine relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 shadow-glow backdrop-blur-xl transition hover:shadow-glowStrong">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-voidblue to-demon p-[1px]">
+            <div class="h-full w-full rounded-2xl bg-black/40 grid place-items-center">🔵</div>
+          </div>
+          <div class="flex-1">
+            <p class="font-semibold leading-tight">YouTube</p>
+            <p class="text-sm text-white/70">Clips, lore, long-form chaos</p>
+          </div>
+          <span class="text-white/40">→</span>
+        </div>
+      </a>
+
+      <a href="#"
+         class="card-shine relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 shadow-glow backdrop-blur-xl transition hover:shadow-glowStrong">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-demon/90 to-white/10 p-[1px]">
+            <div class="h-full w-full rounded-2xl bg-black/40 grid place-items-center">🖤</div>
+          </div>
+          <div class="flex-1">
+            <p class="font-semibold leading-tight">Merch</p>
+            <p class="text-sm text-white/70">Summon-worthy drops + limited sigils</p>
+          </div>
+          <span class="text-white/40">→</span>
+        </div>
+      </a>
+      <a href="#"
+         class="card-shine relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 shadow-glow backdrop-blur-xl transition hover:shadow-glowStrong">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-demon/90 to-white/10 p-[1px]">
+            <div class="h-full w-full rounded-2xl bg-black/40 grid place-items-center">📧</div>
+          </div>
+          <div class="flex-1">
+            <p class="font-semibold leading-tight">Business Inquiries</p>
+            <p class="text-sm text-white/70">Work with the Space Devil himself</p>
+          </div>
+          <span class="text-white/40">→</span>
+        </div>
+      </a>
+      <!-- Secondary links row -->
+      <div class="grid grid-cols-2 gap-3">
+        <a href="#"
+           class="card-shine relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 shadow-glow backdrop-blur-xl transition hover:shadow-glowStrong">
+          <p class="font-semibold">TikTok</p>
+          <p class="mt-1 text-sm text-white/70">Short chaos</p>
+        </a>
+
+        <a href="#"
+           class="card-shine relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 shadow-glow backdrop-blur-xl transition hover:shadow-glowStrong">
+          <p class="font-semibold">X / Twitter</p>
+          <p class="mt-1 text-sm text-white/70">Updates + memes</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Schedule / Panel -->
+    <section class="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-glow backdrop-blur-xl">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h2 class="text-base font-semibold">Summoning Schedule</h2>
+          <p class="mt-1 text-sm text-white/70">Set times in your bio — keep it simple + consistent.</p>
+        </div>
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3 py-1 text-xs text-white/70">
+          <span class="h-2 w-2 rounded-full bg-demon shadow-glow"></span>
+          Next: Fri 8PM PT
+        </span>
+      </div>
+
+      <div class="mt-4 grid gap-2 text-sm">
+        <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+          <span class="text-white/80">Mon</span>
+          <span class="text-white/65">Lore / Cozy</span>
+          <span class="text-white/80">7:00 PM PT</span>
+        </div>
+        <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+          <span class="text-white/80">Wed</span>
+          <span class="text-white/65">Variety</span>
+          <span class="text-white/80">7:30 PM PT</span>
+        </div>
+        <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+          <span class="text-white/80">Fri</span>
+          <span class="text-white/65">Chaos / Collab</span>
+          <span class="text-white/80">8:00 PM PT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-xs text-white/50">
+      <p class="animate-floaty">✦ Made in the void ✦ </p>
+      <p class="mt-2">
+        <span class="mx-1 text-white/30">•</span>
+        <a href="#" class="underline decoration-white/20 underline-offset-4 hover:text-white">coded with love by 𑣲𝑪𝒓𝒚𝒑𝒕𝒊𝒄𝑳𝒖𝒏𝒂.✦ ݁˖</a>
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    // Lightweight starfield (mobile friendly)
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let w, h, stars;
+
+    function resize() {
+      w = canvas.width = window.innerWidth * devicePixelRatio;
+      h = canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      makeStars();
+    }
+
+    function makeStars() {
+      const count = Math.min(240, Math.floor((window.innerWidth * window.innerHeight) / 7000));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: (Math.random() * 1.6 + 0.6) * devicePixelRatio, // slightly bigger "galaxy" feel
+        s: (Math.random() * 0.35 + 0.12) * devicePixelRatio, // speed
+        t: Math.random() * Math.PI * 2, // twinkle phase
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      // Soft vignette
+      const vg = ctx.createRadialGradient(w/2, h/2, Math.min(w,h)*0.1, w/2, h/2, Math.min(w,h)*0.65);
+      vg.addColorStop(0, "rgba(255,255,255,0.04)");
+      vg.addColorStop(1, "rgba(0,0,0,0.35)");
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, w, h);
+
+      for (const st of stars) {
+        st.y += st.s;
+        if (st.y > h + 10) {
+          st.y = -10;
+          st.x = Math.random() * w;
+        }
+        st.t += 0.02;
+
+        const tw = (Math.sin(st.t) + 1) / 2; // 0..1
+        const alpha = 0.25 + tw * 0.55;
+
+        // color blend: mostly white with a hint of blue/purple depending on x
+        const blend = st.x / w;
+        const r = Math.floor(200 + 55 * tw);
+        const g = Math.floor(210 + 35 * tw);
+        const b = Math.floor(255);
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // occasional glow
+        if (tw > 0.85) {
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(109,40,217,${(tw - 0.85) * 0.35})`;
+          ctx.arc(st.x, st.y, st.r * 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+    draw();
+  </script>
+</body>
+</html>
